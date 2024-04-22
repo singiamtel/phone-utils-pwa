@@ -24,6 +24,7 @@
           python312Packages.python-jose
           python312Packages.passlib
           python312Packages.python-dotenv
+          tailwindcss
         ];
 
         devInputs = with pkgs; [
@@ -38,6 +39,7 @@
             description = "Utils app";
           };
           text = ''
+            tailwindcss -i static/style/to_all/global.css -o static/style/to_all/tailwind.css
             uvicorn src.main:app --port 3000
           '';
         };
