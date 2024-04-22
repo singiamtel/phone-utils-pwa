@@ -21,11 +21,16 @@
           python312Packages.fastapi
           python312Packages.uvicorn
           python312Packages.jinja2
+          python312Packages.python-jose
+          python312Packages.passlib
+          python312Packages.python-dotenv
         ];
 
-        buildInputs = with pkgs; [];
+        devInputs = with pkgs; [
+          python312Packages.black
+        ];
       in {
-        devShells.default = pkgs.mkShell {inherit nativeBuildInputs buildInputs;};
+        devShells.default = pkgs.mkShell {inherit nativeBuildInputs devInputs;};
         packages.default = pkgs.writeShellApplication {
           name = "utilsapp";
           runtimeInputs = nativeBuildInputs;
@@ -34,6 +39,16 @@
           };
           text = ''
             uvicorn src.main:app --port 3000
+          '';
+        };
+        packages.lint = pkgs.writeShellApplication {
+          name = "lint";
+          runtimeInputs = devInputs;
+          meta = {
+            description = "Lint";
+          };
+          text = ''
+            black src
           '';
         };
       }
