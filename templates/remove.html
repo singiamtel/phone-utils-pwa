@@ -1,0 +1,77 @@
+{% extends "index.html" %}
+{% block title %}Remove{% endblock %}
+{% block head %}
+    <style>
+        #output {
+            display: none;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+<div id="loading" class="hidden fixed top-0 left-0 w-full h-full bg-gray-600 bg-opacity-50 justify-center items-center">
+<div class="lds-dual-ring m-auto fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border-white"></div>
+
+</div>
+    <div class="container">
+        <div class="row">
+            <div >
+                <h2 class="text-center">Remove</h2>
+                <form id="remove" class="flex flex-col justify-center align-middle">
+ <div class="p-5">
+        <!-- Hidden file input -->
+        <input type="file" name="file" id="file" class="hidden" onchange="document.getElementById('fileName').textContent = this.files[0].name">
+        
+        <!-- Custom label -->
+        <label for="file" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Upload file</label>
+        <label for="file" class="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Choose a file
+        </label>
+        <span id="fileName" class="ml-2 text-sm font-normal text-gray-500">No file chosen</span>
+    </div>
+                    <button type="submit" class="bg-blue-400 text-white border  rounded p-2 m-auto">Remove bg</button>
+                </form>
+                <div id="output" class="mt-2 hidden flex-col justify-center align-middle">
+                <img src="" alt="" id="preview" class="h-[300px] w-auto object-contain ">
+                <button id="download" class="m-auto max-w-[200px] bg-blue-400 text-white border rounded p-2">Download</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+const form = document.getElementById('remove');
+const preview = document.getElementById('preview');
+const output = document.getElementById('output');
+const download = document.getElementById('download');
+const loading = document.getElementById('loading');
+
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(form);
+    loading.style.display = 'flex';
+    const response = await fetch('/remove', {
+        method: 'POST',
+        body: formData
+    });
+  if (response.ok) {
+    // Display the image. The response is the image file.
+    const blob = await response.blob();
+    preview.src = URL.createObjectURL(blob);
+    output.style.display = 'flex';
+    // Remove the image after 5 seconds.
+    download.addEventListener('click', () => {
+      const a = document.createElement('a');
+      a.href = preview.src;
+      a.download = 'converted.png';
+      a.click();
+    });
+
+  } else {
+    console.error('Failed to upload file:', response.statusText);
+  }
+  loading.style.display = 'none';
+});
+</script>
+{% endblock %}
+
