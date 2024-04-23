@@ -8,11 +8,26 @@
     <link href="static/style/to_all/global.css" rel="stylesheet">
     <link href="static/style/to_all/tailwind.css" rel="stylesheet">
   </head>
-  <body>
-    <header>Utils app</header>
+  <body class="flex flex-col h-screen w-screen">
+    <header class="w-full flex flex-col justify-center align-center bg-gray-800 text-white p-4 gap-4">
+      <h2 class="text-center font-bold md:text-start">Utils app </h2>
+      <nav class="flex text-sm gap-4 hover:*:text-slate-300 *:text-slate-400">
+        <a href="/">Home</a>
+        <a href="/subroute">Subroute</a>
+        <a href="/subroute">Subroute</a>
+        <a href="/subroute">Subroute</a>
+        <a href="/subroute">Subroute</a>
+        <a href="/subroute">Subroute</a>
+        <a href="/subroute">Subroute</a>
+
+      </nav>
+    </header>
+
+    <main>
     {% block content %}
       Only for root
     {% endblock %}
+    </main>
   </body>
 </html>
 
