@@ -14,21 +14,32 @@
     flake-utils.lib.eachDefaultSystem (
       system: let
         pkgs = nixpkgs.legacyPackages.${system};
-        python = pkgs.python312;
+        python = pkgs.python311;
+        packages = pkgs.python311Packages;
+      # pass buildpythonpkg to rembg
+        
+      rembg = pkgs.callPackage ./rembg.nix {
+        inherit (pkgs) lib fetchPypi;
+        buildPythonPackage = packages.buildPythonPackage;
+        packages = packages;
+      };
+              
 
         nativeBuildInputs = with pkgs; [
           python
-          python312Packages.fastapi
-          python312Packages.uvicorn
-          python312Packages.jinja2
-          python312Packages.python-jose
-          python312Packages.passlib
-          python312Packages.python-dotenv
+          packages.fastapi
+          packages.uvicorn
+          packages.jinja2
+          packages.python-jose
+          packages.passlib
+          packages.python-dotenv
           tailwindcss
+          rembg
+          pkgs.onnxruntime
         ];
 
         devInputs = with pkgs; [
-          python312Packages.black
+          packages.black
         ];
       in {
         devShells.default = pkgs.mkShell {inherit nativeBuildInputs devInputs;};
