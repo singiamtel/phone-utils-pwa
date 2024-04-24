@@ -19,7 +19,7 @@
                 <form id="remove" class="flex flex-col justify-center align-middle">
  <div class="p-5">
         <!-- Hidden file input -->
-        <input type="file" name="file" id="file" class="hidden" onchange="document.getElementById('fileName').textContent = this.files[0].name">
+        <input type="file" accept="image/png, image/gif, image/jpeg" name="file" id="file" class="hidden" onchange="document.getElementById('fileName').textContent = this.files[0].name">
         
         <!-- Custom label -->
         <label for="file" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Upload file</label>
